@@ -1,11 +1,18 @@
 import express from "express";
+import cors from "cors";
 
 const { auth } = require("./middleware");
 const app = express();
 const JWT_SECRET = "moonismineandyouaremine";
 let USER_ID_COUNTER = 1;
 var jwt = require("jsonwebtoken");
-const USERS: { email: string; password: string; id: number }[] = [];
+const USERS: { email: string; password: string; id: number }[] = [
+	{
+		email: "firosk7@gmail.com",
+		password: "123",
+		id: 1,
+	},
+];
 const PROBLEMS = [
 	{
 		problemId: "1",
@@ -123,7 +130,15 @@ app.listen(5000, () => {
 	console.log("Server started at http://localhost:5000");
 });
 
+app.use(
+	cors({
+		origin: "http://localhost:5173", // Replace with your frontend origin
+		credentials: true,
+	})
+);
+
 app.use(express.json());
+
 app.post("/login", (req, res) => {
 	const email = req.body.email;
 	const password = req.body.password;
